@@ -10,6 +10,7 @@ import { onAuthStateChanged, signOut, type User } from "firebase/auth"
 
 export function Navigation() {
   const [user, setUser] = useState<User | null>(null)
+  const [mounted, setMounted] = useState(false);
   const router = useRouter()
 
   useEffect(() => {
@@ -17,6 +18,8 @@ export function Navigation() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser) // Si es null, el usuario no está logueado
     })
+
+    setMounted(true);
 
   return () => unsubscribe()
   }, [])
@@ -38,7 +41,7 @@ export function Navigation() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Sparkles className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold text-foreground">Redesign AI</span>
+          <span className="text-xl font-bold text-foreground">Room Decority</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

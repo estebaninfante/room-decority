@@ -5,7 +5,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "Homeowner",
     content:
-      "I was skeptical at first, but Redesign AI completely transformed how I visualize my home renovation. The results are stunning and helped me communicate my vision to contractors.",
+      "I was skeptical at first, but Room Decority completely transformed how I visualize my home renovation. The results are stunning and helped me communicate my vision to contractors.",
     rating: 5,
   },
   {
@@ -33,7 +33,7 @@ export function TestimonialsSection() {
             Loved by Thousands
           </h2>
           <p className="mb-16 text-pretty text-lg leading-relaxed text-muted-foreground">
-            Join homeowners, designers, and real estate professionals who trust Redesign AI.
+            Join homeowners, designers, and real estate professionals who trust Room Decority.
           </p>
         </div>
 

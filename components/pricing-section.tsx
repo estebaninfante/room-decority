@@ -7,7 +7,7 @@ const plans = [
     name: "Free",
     price: "$0",
     period: "forever",
-    description: "Perfect for trying out Redesign AI",
+    description: "Perfect for trying out Room Decority",
     features: ["5 designs per month", "Basic design styles", "Standard resolution", "Email support"],
     cta: "Start Free",
     popular: false,

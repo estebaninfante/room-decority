@@ -9,7 +9,7 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Redesign AI - Transform Your Space with AI",
+  title: "Room decority - Transform Your Space with AI",
   description:
     "AI-powered interior design platform. Upload a photo and transform any room instantly with professional design styles.",
   generator: "v0.app",

@@ -1,49 +1,38 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
+const MOCK_IMAGES: Record<string, string> = {
+  // Combinaciones específicas
+  "living-room_modern": "/modern-luxury-living-room-after-ai-redesign.jpg",
+  "bedroom_modern": "/modern-minimalist-bedroom-after.jpg",
+  "kitchen_scandinavian": "/scandinavian-kitchen-after.jpg",
+  "bathroom_traditional": "/luxury-spa-bathroom-after.jpg",
+  "living-room_industrial": "/industrial-loft-living-room-after.jpg",
 
-// Convierte base64 → File para enviar a OpenAI (solo si haces edición)
-function base64ToFile(base64Data: string, filename: string): File {
-  const match = base64Data.match(/^data:(image\/.+);base64,(.+)$/);
-  if (!match) throw new Error("Formato base64 inválido");
-  const mimeType = match[1];
-  const buffer = Buffer.from(match[2], "base64");
-  return new File([buffer], filename, { type: mimeType });
-}
+  // Imagen por defecto si no hay match
+  "default": "/modern-luxury-living-room-after-ai-redesign.jpg",
+};
 
 export async function POST(request: Request) {
   try {
-    const { originalImages, selectedStyle, roomType, prompt, negativePrompt } =
+    const { originalImages, selectedStyle, roomType } =
       await request.json();
 
     if (!originalImages || originalImages.length === 0) {
       return NextResponse.json({ error: "No se proporcionó ninguna imagen" }, { status: 400 });
     }
 
-    const fullPrompt = `
-      Rediseña este ${roomType.replace("_", " ")} al estilo ${selectedStyle}.
-      Incluye: ${prompt}.
-      Evita: ${negativePrompt}.
-      Devuelve solo una imagen final limpia, sin texto ni marcas de agua.
-    `;
+    // ⏱️ SIMULA EL TIEMPO DE PROCESAMIENTO de la IA (2 segundos)
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // 👇 Usa el modelo gpt-image-1 para generar el rediseño
-    const result = await openai.images.generate({
-      model: "gpt-image-1",
-      prompt: fullPrompt,
-      size: "1024x1024",
-    });
+    const key = `${roomType}_${selectedStyle}`;
+    const imageUrl = MOCK_IMAGES[key] || MOCK_IMAGES["default"];
 
-    // ✅ Extrae el base64 correctamente
-    const base64 = result.data[0].b64_json;
-    const imageUrl = `data:image/png;base64,${base64}`;
-
-    return NextResponse.json({ image: imageUrl });
+    // Devuelve la URL de la imagen simulada. En un entorno real,
+    // el modelo devolvería el base64 que el cliente usa como URL.
+    return NextResponse.json({ redesignedImageUrl: imageUrl });
   } catch (error: any) {
-    console.error("Error generando imagen:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Error simulando la generación de imagen:", error);
+    return NextResponse.json({ error: "Error en el servidor de simulación." }, { status: 500 });
   }
 }
+// --- FIN DE SIMULACIÓN DE AI ---
